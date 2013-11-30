@@ -61,6 +61,7 @@ _Task NameServer {
 _Monitor Bank {
     unsigned int numStudents;
     std::vector<unsigned int> studentBalance;
+    std::vector<uCondition*> condition;
   public:
     Bank( unsigned int numStudents );
     void deposit( unsigned int id, unsigned int amount );
@@ -68,6 +69,7 @@ _Monitor Bank {
 };
 
 class WATCard {
+    unsigned int balance;
     WATCard( const WATCard & );            // prevent copying
     WATCard &operator=( const WATCard & );
   public:
@@ -84,7 +86,10 @@ _Task WATCardOffice {
         FWATCard result;                   // return future
         Job( Args args ) : args( args ) {}
     };
-    _Task Courier { ... };                 // communicates with bank
+    _Task Courier { 
+
+
+     };                 // communicates with bank
 
     void main();
   public:
