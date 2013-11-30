@@ -125,6 +125,12 @@ _Task Parent {
 
 
 _Task BottlingPlant {
+    Printer *prt;
+    NameServer *nameServer;
+    unsigned int numVendingMachines;
+    unsigned int maxShippedPerFlavour;
+    unsigned int maxStockPerFlavour;
+    unsigned int timeBetweenShipments;
     void main();
   public:
     BottlingPlant( Printer &prt, NameServer &nameServer, unsigned int numVendingMachines,
@@ -135,6 +141,7 @@ _Task BottlingPlant {
 
 _Task Truck {
     void main();
+    unsigned int cargo[4];
   public:
     Truck( Printer &prt, NameServer &nameServer, BottlingPlant &plant,
            unsigned int numVendingMachines, unsigned int maxStockPerFlavour );
