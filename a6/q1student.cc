@@ -6,7 +6,7 @@ MPRNG ran;
 
     void Student::main(){
         int purchases = ran(1, maxPurchases);
-        VendingMachine::Flavours favFlavour =  static_cast<Flavours>(ran(0, 3));
+        VendingMachine::Flavours favFlavour =  static_cast<VendingMachine::Flavours>(ran(0, 3));
         prt->print( Printer::Student, id, 'S', favFlavour, purchases);
         WATCard *card = cardOffice->create(id, 5);
         VendingMachine *vm = nameServer->getMachine(id);
@@ -14,8 +14,8 @@ MPRNG ran;
         while(true) {
             int times = ran(1,10);
             yield(times);
+            bool watCardLost = false;
             while (watCardLost) {
-                bool watCardLost = false;
                 try {
                     card();
                 } catch (Lost& e) {

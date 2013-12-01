@@ -1,6 +1,6 @@
 #include <uC++.h>
-#include "q1classes.h"
-#include "MPRNG.h"
+#include <q1classes.h>
+#include <MPRNG.h>
 
 MPRNG ran;
 void Parent::main(){

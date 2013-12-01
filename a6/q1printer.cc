@@ -1,26 +1,15 @@
 #include <uC++.h>
-#include <map>
 #include <iostream>
 #include <cassert>
-#include "q2classes.h"
+#include "q1classes.h"
 
 using std::cout;
 using std::endl;
-using std::map;
-
-    enum Kind { Parent, WATCardOffice, NameServer, Truck, BottlingPlant, Student, Vending, Courier };
-    Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers );
-    void print( Kind kind, char state );
-    void print( Kind kind, char state, int value1 );
-    void print( Kind kind, char state, int value1, int value2 );
-    void print( Kind kind, unsigned int lid, char state );
-    void print( Kind kind, unsigned int lid, char state, int value1 );
-    void print( Kind kind, unsigned int lid, char state, int value1, int value2 );
 
     Printer::Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers ):
         numStudents(numStudents), numVendingMachines(numVendingMachines), numCouriers(numCouriers){
 
-        cout<<"Parent\tWATOff\tNames\tTruck\tPlant\t"
+        cout<<"Parent\tWATOff\tNames\tTruck\tPlant\t";
         for (int i = 0; i<numStudents; i++) {
             cout<<"Stud"<<i<<"\t";
         }
@@ -88,7 +77,7 @@ using std::map;
             assert("Wrong print method called" == "");
         }
         if (state == 'F'){
-            flushFinish(kind, lid)
+            flushFinish(kind, lid);
         }
     }
 
@@ -126,87 +115,87 @@ using std::map;
 
     void Printer::flush(){
         if (sGeneral.count(Parent)) {
-            cout<<sGeneral.get(Parent);
+            cout<<sGeneral.at(Parent);
             if (generalNumber1.count(Parent)) {
-                cout<<generalNumber1.get(Parent);
+                cout<<generalNumber1.at(Parent);
             }
             if (generalNumber2.count(Parent)) {
-                cout<<','<<generalNumber2.get(Parent);
+                cout<<','<<generalNumber2.at(Parent);
             }
         }
         cout<<"\t";
         if (sGeneral.count(WATCardOffice)) {
-            cout<<sGeneral.get(WATCardOffice);
+            cout<<sGeneral.at(WATCardOffice);
             if (generalNumber1.count(WATCardOffice)) {
-                cout<<generalNumber1.get(WATCardOffice);
+                cout<<generalNumber1.at(WATCardOffice);
             }
             if (generalNumber2.count(WATCardOffice)) {
-                cout<<','<<generalNumber2.get(WATCardOffice);
+                cout<<','<<generalNumber2.at(WATCardOffice);
             }
         }
         cout<<"\t";
         if (sGeneral.count(NameServer)) {
-            cout<<sGeneral.get(NameServer);
+            cout<<sGeneral.at(NameServer);
             if (generalNumber1.count(WATCardOffice)) {
-                cout<<generalNumber1.get(WATCardOffice);
+                cout<<generalNumber1.at(WATCardOffice);
             }
             if (generalNumber2.count(WATCardOffice)) {
-                cout<<','<<generalNumber2.get(WATCardOffice);
+                cout<<','<<generalNumber2.at(WATCardOffice);
             }
         }
         cout<<"\t";
         if (sGeneral.count(Truck)) {
-            cout<<sGeneral.get(Truck);
+            cout<<sGeneral.at(Truck);
             if (generalNumber1.count(Truck)) {
-                cout<<generalNumber1.get(Truck);
+                cout<<generalNumber1.at(Truck);
             }
             if (generalNumber2.count(Truck)) {
-                cout<<','<<generalNumber2.get(Truck);
+                cout<<','<<generalNumber2.at(Truck);
             }
         }
         cout<<"\t";
         if (sGeneral.count(BottlingPlant)) {
-            cout<<sGeneral.get(BottlingPlant);
+            cout<<sGeneral.at(BottlingPlant);
             if (generalNumber1.count(BottlingPlant)) {
-                cout<<generalNumber1.get(BottlingPlant);
+                cout<<generalNumber1.at(BottlingPlant);
             }
             if (generalNumber2.count(BottlingPlant)) {
-                cout<<','<<generalNumber2.get(BottlingPlant);
+                cout<<','<<generalNumber2.at(BottlingPlant);
             }
         }
         cout<<"\t";
         for (int i = 0; i < numStudents; i++) {
             if (sStudent.count(i)) {
-                cout<<sStudent.get(i);
+                cout<<sStudent.at(i);
                 if (studentNumber1.count(i)) {
-                    cout<<studentNumber1.get(i);
+                    cout<<studentNumber1.at(i);
                 }
                 if (studentNumber2.count(i)) {
-                    cout<<','<<studentNumber2.get(i);
+                    cout<<','<<studentNumber2.at(i);
                 }
             }
             cout<<"\t";
         }
         for (int i = 0; i < numVendingMachines; i++) {
             if (sVending.count(i)) {
-                cout<<sVending.get(i);
+                cout<<sVending.at(i);
                 if (vendingNumber1.count(i)) {
-                    cout<<vendingNumber1.get(i);
+                    cout<<vendingNumber1.at(i);
                 }
                 if (vendingNumber2.count(i)) {
-                    cout<<','<<vendingNumber2.get(i);
+                    cout<<','<<vendingNumber2.at(i);
                 }
             }
             cout<<"\t";
         }
         for (int i = 0; i < numCouriers; i++) {
             if (sCourier.count(i)) {
-                cout<<sCourier.get(i);
+                cout<<sCourier.at(i);
                 if (courierNumber1.count(i)) {
-                    cout<<courierNumber1.get(i);
+                    cout<<courierNumber1.at(i);
                 }
                 if (courierNumber2.count(i)) {
-                    cout<<','<<courierNumber2.get(i);
+                    cout<<','<<courierNumber2.at(i);
                 }
             }
             cout<<"\t";
@@ -224,7 +213,7 @@ using std::map;
         sGeneral.clear();
     }
 
-    Printer::flushFinish(Kind kind, unsigned lid){
+    void Printer::flushFinish(Kind kind, unsigned lid){
         int id = -1;
         switch(kind){
             case Parent: id = 0; break;
@@ -237,15 +226,13 @@ using std::map;
             case Courier: id = 5+numStudents+numVendingMachines+lid; break;
         }
 
-        if (state == 'F') {
-            for (unsigned int i = 0; i<5+numStudents+numStudents+numVendingMachines; i++) {
-                if (i == id) {
-                    cout<<'F'<<"\t";
-                } else {
-                    cout<<"...\t";
-                }
-            }
-            cout<<endl;
+        for (unsigned int i = 0; i<5+numStudents+numStudents+numVendingMachines; i++) {
+          if (i == id) {
+            cout<<'F'<<"\t";
+          } else {
+            cout<<"...\t";
+          }
+        cout<<endl;
         }
     }
 

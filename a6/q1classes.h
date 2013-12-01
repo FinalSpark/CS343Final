@@ -3,14 +3,25 @@
 
 #include <uC++.h>
 #include <vector>
+#include <uFuture.h>
 #include <map>
 
 using std::map;
-using std::vector;
 
 _Task NameServer;
 
 _Monitor Printer {
+  public:
+    enum Kind { Parent, WATCardOffice, NameServer, Truck, BottlingPlant, Student, Vending, Courier };
+    Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers );
+    ~Printer();
+    void print( Kind kind, char state );
+    void print( Kind kind, char state, int value1 );
+    void print( Kind kind, char state, int value1, int value2 );
+    void print( Kind kind, unsigned int lid, char state );
+    void print( Kind kind, unsigned int lid, char state, int value1 );
+    void print( Kind kind, unsigned int lid, char state, int value1, int value2 );
+  private:
     unsigned int numStudents;
     unsigned int numVendingMachines;
     unsigned int numCouriers;
@@ -28,15 +39,6 @@ _Monitor Printer {
     map<int, int> courierNumber2;
     void flush();                                            //called by print to print a line;
     void flushFinish(Kind kind, unsigned int lid);           //called by print to print finish
-  public:
-    enum Kind { Parent, WATCardOffice, NameServer, Truck, BottlingPlant, Student, Vending, Courier };
-    Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers );
-    void print( Kind kind, char state );
-    void print( Kind kind, char state, int value1 );
-    void print( Kind kind, char state, int value1, int value2 );
-    void print( Kind kind, unsigned int lid, char state );
-    void print( Kind kind, unsigned int lid, char state, int value1 );
-    void print( Kind kind, unsigned int lid, char state, int value1, int value2 );
 };
 
 class WATCard {
@@ -52,14 +54,6 @@ class WATCard {
 };
 
 _Task VendingMachine {
-    Printer *prt;
-    NameServer *nameServer;
-    unsigned int sodaCost;
-    unsigned int id;
-    unsigned int stock[4];
-    bool restocking;
-    bool buySuccess;
-
     void main();
   public:
     enum Flavours { COKE, ICETEA, DRPEPPER, SPRITE };                 // flavours of soda (YOU DEFINE)
@@ -71,8 +65,6 @@ _Task VendingMachine {
     void restocked();
     _Nomutex unsigned int cost();
     _Nomutex unsigned int getId();
-  private:
-    Flavours buyFlavour;
 };
 
 _Task NameServer {
@@ -94,12 +86,11 @@ _Monitor Bank {
     void withdraw( unsigned int id, unsigned int amount );
 };
 
-
 _Task WATCardOffice {
     struct Job {                           // marshalled arguments and return future
-        Args args;                         // call arguments (YOU DEFINE "Args")
-        FWATCard result;                   // return future
-        Job( Args args ) : args( args ) {}
+        int args;                         // call arguments (YOU DEFINE "Args") change for compilation TODO define args
+        WATCard::FWATCard result;                   // return future
+        Job( int args ) : args( args ) {}
     };
     _Task Courier { 
 
@@ -110,17 +101,17 @@ _Task WATCardOffice {
   public:
     _Event Lost {};                        // uC++ exception type, like "struct"
     WATCardOffice( Printer &prt, Bank &bank, unsigned int numCouriers );
-    FWATCard create( unsigned int sid, unsigned int amount );
-    FWATCard transfer( unsigned int sid, unsigned int amount, WATCard *card );
+    WATCard::FWATCard create( unsigned int sid, unsigned int amount );
+    WATCard::FWATCard transfer( unsigned int sid, unsigned int amount, WATCard *card );
     Job *requestWork();
 };
 
 _Task Student {
         Printer *prt;
         NameServer *nameServer;
-        WatCardOffice *cardOffice;
+        WATCardOffice *cardOffice;
         unsigned int id;
-        unsigned int maxPurchases
+        unsigned int maxPurchases;
         void main();
     public:
         Student( Printer &prt, NameServer &nameServer, WATCardOffice &cardOffice, unsigned int id,
@@ -146,7 +137,6 @@ _Task BottlingPlant {
     unsigned int maxShippedPerFlavour;
     unsigned int maxStockPerFlavour;
     unsigned int timeBetweenShipments;
-    int soda[4];
     void main();
   public:
     BottlingPlant( Printer &prt, NameServer &nameServer, unsigned int numVendingMachines,
