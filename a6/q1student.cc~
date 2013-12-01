@@ -22,7 +22,11 @@ MPRNG ran;
 
             do {
               try {
+                //WATCard& c1 = *(card());
+                //status = vm->buy(favFlavour, c1);
                 status = vm->buy(favFlavour, *(card()));
+
+                //balance = card()->getBalance();
                 watCardLost = false;
               } catch (WATCardOffice::Lost& e) {
                   watCardLost = true;
