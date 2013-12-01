@@ -1,6 +1,6 @@
 #include <uC++.h>
-#include <q1classes.h>
-#include <MPRNG.h>
+#include "q1classes.h"
+#include "MPRNG.h"
 
 MPRNG ran;
 
@@ -34,7 +34,7 @@ void Truck::main(){
             vmList[i]->restocked();
         }
     }
-            prt->(Printer::Truck, 'F');
+    prt->(Printer::Truck, 'F');
 }
 
 Truck::Truck( Printer &prt, NameServer &nameServer, BottlingPlant &plant,

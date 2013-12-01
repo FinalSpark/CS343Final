@@ -3,6 +3,10 @@
 
 #include <uC++.h>
 #include <vector>
+#include <map>
+
+using std::map;
+using std::vector;
 
 _Task NameServer;
 
@@ -35,7 +39,27 @@ _Monitor Printer {
     void print( Kind kind, unsigned int lid, char state, int value1, int value2 );
 };
 
+class WATCard {
+    unsigned int balance;
+    WATCard( const WATCard & );            // prevent copying
+    WATCard &operator=( const WATCard & );
+  public:
+    WATCard();
+    typedef Future_ISM<WATCard *> FWATCard; // future watcard pointer
+    void deposit( unsigned int amount );
+    void withdraw( unsigned int amount );
+    unsigned int getBalance();
+};
+
 _Task VendingMachine {
+    Printer *prt;
+    NameServer *nameServer;
+    unsigned int sodaCost;
+    unsigned int id;
+    unsigned int stock[4];
+    bool restocking;
+    bool buySuccess;
+
     void main();
   public:
     enum Flavours { COKE, ICETEA, DRPEPPER, SPRITE };                 // flavours of soda (YOU DEFINE)
@@ -47,6 +71,8 @@ _Task VendingMachine {
     void restocked();
     _Nomutex unsigned int cost();
     _Nomutex unsigned int getId();
+  private:
+    Flavours buyFlavour;
 };
 
 _Task NameServer {
@@ -68,17 +94,6 @@ _Monitor Bank {
     void withdraw( unsigned int id, unsigned int amount );
 };
 
-class WATCard {
-    unsigned int balance;
-    WATCard( const WATCard & );            // prevent copying
-    WATCard &operator=( const WATCard & );
-  public:
-    WATCard();
-    typedef Future_ISM<WATCard *> FWATCard; // future watcard pointer
-    void deposit( unsigned int amount );
-    void withdraw( unsigned int amount );
-    unsigned int getBalance();
-};
 
 _Task WATCardOffice {
     struct Job {                           // marshalled arguments and return future
@@ -117,7 +132,7 @@ _Task Parent {
     Printer* prt;
     Bank *bank;
     int numStudents;
-    unsigned int parentalDelay；
+    unsigned int parentalDelay;
     void main();
   public:
     Parent( Printer &prt, Bank &bank, unsigned int numStudents, unsigned int parentalDelay );
@@ -131,6 +146,7 @@ _Task BottlingPlant {
     unsigned int maxShippedPerFlavour;
     unsigned int maxStockPerFlavour;
     unsigned int timeBetweenShipments;
+    int soda[4];
     void main();
   public:
     BottlingPlant( Printer &prt, NameServer &nameServer, unsigned int numVendingMachines,
