@@ -5,8 +5,10 @@
 #include <vector>
 #include <uFuture.h>
 #include <map>
+#include <queue>
 
 using std::map;
+using std::vector;
 
 _Task NameServer;
 _Task BottlingPlant;
@@ -85,14 +87,16 @@ _Task NameServer {
     Printer *prt;
     unsigned int numVendingMachines;
     unsigned int numStudents;
-    unsigned int assignment[numStudents];
+    unsigned int* assignment;
     void main();
     unsigned int sid;
+    unsigned int vid;
   public:
     NameServer( Printer &prt, unsigned int numVendingMachines, unsigned int numStudents );
     void VMregister( VendingMachine *vendingmachine );
     VendingMachine *getMachine( unsigned int id );
     VendingMachine **getMachineList();
+    ~NameServer();
 };
 
 _Monitor Bank {
@@ -107,16 +111,28 @@ _Monitor Bank {
 
 _Task WATCardOffice {
     struct Job {                           // marshalled arguments and return future
-        int args;                         // call arguments (YOU DEFINE "Args") change for compilation TODO define args
+        unsigned int sid;
+        unsigned int amount;
+        WATCard *card;
         WATCard::FWATCard result;                   // return future
-        Job( int args ) : args( args ) {}
+        Job( unsigned int sid, unsigned int amount, WATCard *card);
     };
     _Task Courier { 
-
-
-     };                 // communicates with bank
+        Bank *bank;
+        Printer *prt;
+        WATCardOffice *office;
+        void main();
+      public:
+        Courier(Printer &prt, Bank *bank, WATCardOffice *office);
+        ~Courier();
+    };                 // communicates with bank
 
     void main();
+    Printer * prt;
+    Bank * bank;
+    unsigned int numCouriers;
+    std::queue<job*> jobs;
+    Courier **couriers;
   public:
     _Event Lost {};                        // uC++ exception type, like "struct"
     WATCardOffice( Printer &prt, Bank &bank, unsigned int numCouriers );

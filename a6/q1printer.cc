@@ -10,13 +10,13 @@ using std::endl;
         numStudents(numStudents), numVendingMachines(numVendingMachines), numCouriers(numCouriers){
 
         cout<<"Parent\tWATOff\tNames\tTruck\tPlant\t";
-        for (int i = 0; i<numStudents; i++) {
+        for (unsigned int i = 0; i<numStudents; i++) {
             cout<<"Stud"<<i<<"\t";
         }
-        for (int i = 0; i<numVendingMachines; i++) {
+        for (unsigned int i = 0; i<numVendingMachines; i++) {
             cout<<"Mach"<<i<<"\t";
         }
-        for (int i = 0; i<numCouriers; i++) {
+        for (unsigned int i = 0; i<numCouriers; i++) {
             cout<<"Cour"<<i<<"\t";
         }
         cout<<endl;
@@ -74,7 +74,7 @@ using std::endl;
             }
         } else {
             // Should never occur, terminate 
-            assert("Wrong print method called" == "");
+            assert(false);
         }
         if (state == 'F'){
             flushFinish(kind, lid);
@@ -164,7 +164,7 @@ using std::endl;
             }
         }
         cout<<"\t";
-        for (int i = 0; i < numStudents; i++) {
+        for (unsigned int i = 0; i < numStudents; i++) {
             if (sStudent.count(i)) {
                 cout<<sStudent.at(i);
                 if (studentNumber1.count(i)) {
@@ -176,7 +176,7 @@ using std::endl;
             }
             cout<<"\t";
         }
-        for (int i = 0; i < numVendingMachines; i++) {
+        for (unsigned int i = 0; i < numVendingMachines; i++) {
             if (sVending.count(i)) {
                 cout<<sVending.at(i);
                 if (vendingNumber1.count(i)) {
@@ -188,7 +188,7 @@ using std::endl;
             }
             cout<<"\t";
         }
-        for (int i = 0; i < numCouriers; i++) {
+        for (unsigned int i = 0; i < numCouriers; i++) {
             if (sCourier.count(i)) {
                 cout<<sCourier.at(i);
                 if (courierNumber1.count(i)) {
@@ -213,7 +213,7 @@ using std::endl;
         sGeneral.clear();
     }
 
-    void Printer::flushFinish(Kind kind, unsigned lid){
+    void Printer::flushFinish(Kind kind, unsigned int lid){
         int id = -1;
         switch(kind){
             case Parent: id = 0; break;
@@ -226,7 +226,7 @@ using std::endl;
             case Courier: id = 5+numStudents+numVendingMachines+lid; break;
         }
 
-        for (unsigned int i = 0; i<5+numStudents+numStudents+numVendingMachines; i++) {
+        for (int i = 0; i<5+numStudents+numStudents+numVendingMachines; i++) {
           if (i == id) {
             cout<<'F'<<"\t";
           } else {

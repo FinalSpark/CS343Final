@@ -20,8 +20,8 @@ void uMain::main() {
 
     Bank bank(parms.numStudents);
     Printer prt(parms.numStudents, parms.numVendingMachines, parms.numCouriers);
-    WATCardOffice wtcrdOffice(prt,bank,parms.numCouriers);
     NameServer nameServer(prt, parms.numVendingMachines, parms.numStudents);
+    WATCardOffice wtcrdOffice(prt,bank,parms.numCouriers);
     for (int i = 0; i < parms.numStudents; i++)
     {
       students.push_back(new Student(prt, nameServer, wtcrdOffice,i, parms.maxPurchases));

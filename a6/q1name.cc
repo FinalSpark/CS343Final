@@ -8,20 +8,26 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
         vmList = new VendingMachine*[numVendingMachines];
         counter = 0;
         vmCounter = 0;
-        for (int i = 0; i<numStudents; i++) {
+        assignment = new unsigned int[numStudents];
+        for (unsigned int i = 0; i<numStudents; i++) {
             assignment[i] = i%numVendingMachines;
         }
     }
 
     void NameServer::main(){
+        prt->print(Printer::NameServer, 'S');
         while(vmCounter<numVendingMachines) {
             _Accept(VMregister){
                 vmCounter++;
+                prt->print(Printer::NameServer, 'R', vid);
             }
         }
         while (true) {
             _Accept (~NameServer){
+                prt->print(Printer::NameServer, 'F', assignment[sid]);
+                break;
             } or _Accept(getMachine) {
+                prt->print(Printer::NameServer, 'N', assignment[sid]);
                 assignment[sid] = (assignment[sid]+1)%numVendingMachines;
             } or _Accept(getMachineList){
 
@@ -30,12 +36,13 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
     }
 
     void NameServer::VMregister( VendingMachine *vendingmachine ){
-        vmList[vmCounter] = vendingmachine;
+        vid = vendingmachine->getId();
+        vmList[vendingmachine->getId()] = vendingmachine;
     }
 
     VendingMachine * NameServer::getMachine( unsigned int id ){
         sid = id;
-        return vmList[assignment[i]];
+        return vmList[assignment[id]];
     }
     VendingMachine ** NameServer::getMachineList(){
         return vmList;
@@ -43,4 +50,5 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
 
     NameServer::~NameServer(){
         delete[] vmList;
+        delete[] assignment;
     }
