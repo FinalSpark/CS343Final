@@ -16,20 +16,19 @@ MPRNG ran;
         while(true) {
             int times = ran(1,10);
             yield(times);
-            bool watCardLost;
+            bool watCardLost = true;
             VendingMachine::Status status;
             unsigned int balance;
 
-            do {
-              try {
-                status = vm->buy(favFlavour, *(card()));
-                watCardLost = false;
-              } catch (WATCardOffice::Lost& e) {
-                  watCardLost = true;
-                  prt->print( Printer::Student, id, 'L');
-                  card = cardOffice->create(id, 5);
-              }
-            } while (watCardLost);
+            while (watCardLost) {
+                try {
+                    status = vm->buy(favFlavour, *(card()));
+                    watCardLost = false;
+                } catch (WATCardOffice::Lost& e) {
+                    prt->print( Printer::Student, id, 'L');
+                    card = cardOffice->create(id, 5);
+                }
+            }
 
             switch (status) {
                 case VendingMachine::BUY:
