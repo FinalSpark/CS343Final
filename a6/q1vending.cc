@@ -3,6 +3,7 @@
 
 void VendingMachine::main(){
     prt->print(Printer::Vending, id, 'S', sodaCost);
+    nameServer->VMregister(this);
     while (true) {
         _Accept(~VendingMachine){
             prt->print(Printer::Vending, id, 'F');
