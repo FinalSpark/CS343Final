@@ -79,7 +79,15 @@ _Task VendingMachine {
 };
 
 _Task NameServer {
+    VendingMachine **vmList;
+    unsigned int counter;
+    unsigned int vmCounter;
+    Printer *prt;
+    unsigned int numVendingMachines;
+    unsigned int numStudents;
+    unsigned int assignment[numStudents];
     void main();
+    unsigned int sid;
   public:
     NameServer( Printer &prt, unsigned int numVendingMachines, unsigned int numStudents );
     void VMregister( VendingMachine *vendingmachine );
