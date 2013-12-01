@@ -123,7 +123,7 @@ _Task WATCardOffice {
         WATCardOffice *office;
         void main();
       public:
-        Courier(Printer &prt, Bank *bank, WATCardOffice *office);
+        Courier(Printer *prt, Bank *bank, WATCardOffice *office);
         ~Courier();
     };                 // communicates with bank
 
@@ -131,7 +131,7 @@ _Task WATCardOffice {
     Printer * prt;
     Bank * bank;
     unsigned int numCouriers;
-    std::queue<job*> jobs;
+    std::queue<Job*> jobs;
     Courier **couriers;
   public:
     _Event Lost {};                        // uC++ exception type, like "struct"
@@ -139,6 +139,7 @@ _Task WATCardOffice {
     WATCard::FWATCard create( unsigned int sid, unsigned int amount );
     WATCard::FWATCard transfer( unsigned int sid, unsigned int amount, WATCard *card );
     Job *requestWork();
+    ~WATCardOffice();
 };
 
 _Task Student {
@@ -151,7 +152,6 @@ _Task Student {
     public:
         Student( Printer &prt, NameServer &nameServer, WATCardOffice &cardOffice, unsigned int id,
         unsigned int maxPurchases );
-        ~Student();
 };
 
 _Task Parent {

@@ -3,11 +3,11 @@
 #include "MPRNG.h"
 #include <vector>
 
-    WATCardOffice( Printer &prt, Bank &bank, unsigned int numCouriers ):
+  WATCardOffice::WATCardOffice( Printer &prt, Bank &bank, unsigned int numCouriers ):
         prt(&prt), bank(&bank), numCouriers(numCouriers){
         couriers = new Courier*[numCouriers];
         for (int i = 0; i < numCouriers; i++) {
-            couriers[i] = new Courier(&prt, &bank, *this);
+            couriers[i] = new Courier(&prt, &bank, this);
         }
     }
 
@@ -21,8 +21,8 @@
         jobs.push(job);
         return job->result;
     }
-    Job *WATCardOffice::requestWork(){
-        return jobs.front();;
+struct WATCardOffice::Job *WATCardOffice::requestWork(){
+        return jobs.front();
     }
 
     void WATCardOffice::main(){
@@ -44,29 +44,36 @@
 
 
 
-    Courier(Printer &prt, Bank *bank, WATCardOffice *office):
-        prt(&prt), bank(&bank), office(&office){
+    WATCardOffice::Courier::Courier(Printer *prt, Bank *bank, WATCardOffice *office):
+        prt(prt), bank(bank), office(office){
 
         }
+
+
+    WATCardOffice::Courier::~Courier()
+    {
+
+    }
     
-    void Courier::main(){
-        std::vector<Job *> doneJobs;
+    void WATCardOffice::Courier::main(){
+        std::vector<struct WATCardOffice::Job *> doneJobs;
         int count = 0;
 
         while (true){
             _Accept(~Courier) {
                 for (int i = 0; i < count; i++) {
-                    delete vector[i];
+                    delete doneJobs[i];
                 }
                 break;
             } _Else{
-                Job* job = office->requestWork();
+                struct Job* job = office->requestWork();
                 bool lostEh = ran(0, 5) == 0;
                 if (lostEh) {
                     job->result.exception( new Lost );
                 } else {
                     bank->withdraw(job->sid, job->amount);
-                    job->result.deliver(job->card->deposit(job->amount));
+                    job->card->deposit(job->amount);
+                    job->result.delivery(job->card);
 
                 }
                 doneJobs.push_back(job);
@@ -74,7 +81,7 @@
         }
     }
 
-    Job::Job( unsigned int sid, unsigned int amount, WATCard *card):
+    WATCardOffice::Job::Job( unsigned int sid, unsigned int amount, WATCard *card):
         sid(sid), amount(amount), card(card){
 
         }
