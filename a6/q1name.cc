@@ -10,7 +10,7 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
     }
 
     void NameServer::main(){
-        _Accept
+        
     }
 
     void NameServer::VMregister( VendingMachine *vendingmachine ){
