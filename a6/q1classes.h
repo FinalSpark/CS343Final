@@ -68,9 +68,6 @@ _Task VendingMachine {
 };
 
 _Task NameServer {
-    Printer *prt;
-    unsigned int numVendingMachines;
-    unsigned int numStudents;
     void main();
   public:
     NameServer( Printer &prt, unsigned int numVendingMachines, unsigned int numStudents );
@@ -83,7 +80,6 @@ _Monitor Bank {
     unsigned int numStudents;
     std::vector<unsigned int> studentBalance;
     std::vector<uCondition*> condition;
-    VendingMachine ** vmList;
   public:
     Bank( unsigned int numStudents );
     void deposit( unsigned int id, unsigned int amount );
