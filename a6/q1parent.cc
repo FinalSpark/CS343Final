@@ -1,8 +1,7 @@
 #include <uC++.h>
-#include <q1classes.h>
-#include <MPRNG.h>
+#include "q1classes.h"
+#include "MPRNG.h"
 
-MPRNG ran;
 void Parent::main(){
     prt->print(Printer::Parent, 'S');
     while (true) {
@@ -12,7 +11,7 @@ void Parent::main(){
         } _Else {
             int student = ran(0, numStudents-1);
             int money = ran(1,3);
-            yield(parentalDelay)
+            yield(parentalDelay);
             bank->deposit(student, money);
             prt->print(Printer::Parent, 'D', student, money);
         }

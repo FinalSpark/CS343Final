@@ -1,16 +1,14 @@
 #include <uC++.h>
-#include <q1classes.h>
-#include <MPRNG.h>
-
-MPRNG ran;
+#include "q1classes.h"
+#include "MPRNG.h"
 
 void Bank::deposit( unsigned int id, unsigned int amount ){
     studentBalance[id]+=amount;
-    condition[id].signal();
+    condition[id]->signal();
 }
 void Bank::withdraw( unsigned int id, unsigned int amount ){
     while (amount > studentBalance[id]) {
-        condition[id].wait();
+        condition[id]->wait();
     }
     studentBalance[id]-=amount;
 }

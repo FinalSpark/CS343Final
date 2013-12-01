@@ -2,28 +2,28 @@
 #include "q1classes.h"
 
 void VendingMachine::main(){
-    prt->print(Vending, id, 'S', sodaCost);
+    prt->print(Printer::Vending, id, 'S', sodaCost);
     while (true) {
         _Accept(~VendingMachine){
-            prt->print(Vending, id, 'F');
+            prt->print(Printer::Vending, id, 'F');
             break;
         } or _When (!restocking) _Accept(inventory) { 
-            prt->print(Vending, id, 'r');
+            prt->print(Printer::Vending, id, 'r');
             restocking = true;
         } or _When (restocking) _Accept(restocked){
-            prt->print(Vending, id, 'R', sodaCost);
+            prt->print(Printer::Vending, id, 'R', sodaCost);
             restocking = false;
         } or _When(!restocking) _Accept(buy) {
             if (buySuccess)
-                prt->print(Vending, id, 'B', buyFlavour, stock[buyFlavour]);
+                prt->print(Printer::Vending, id, 'B', buyFlavour, stock[buyFlavour]);
         }
     }
 }
 
-Status VendingMachine::buy(Flavours flavour, WATCard &card){
+VendingMachine::Status VendingMachine::buy(Flavours flavour, WATCard &card){
     buySuccess = false;
     if (stock[flavour] == 0) return STOCK;
-    else if (card.getBalance() < sodaCost) return FUND;
+    else if (card.getBalance() < sodaCost) return FUNDS;
     else {
         card.withdraw(sodaCost);
         buySuccess = true;
@@ -33,7 +33,7 @@ Status VendingMachine::buy(Flavours flavour, WATCard &card){
 }
 
 unsigned int * VendingMachine::inventory(){
-    return &stock;
+    return stock;
 }
 
 void VendingMachine::restocked(){
@@ -56,8 +56,4 @@ VendingMachine::VendingMachine( Printer &prt, NameServer &nameServer, unsigned i
     stock[3] = 0;
     restocking = false;
     buySuccess = false;
-}
-
-VendingMachine::~VendingMachine(){
-
 }

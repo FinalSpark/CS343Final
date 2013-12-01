@@ -8,7 +8,8 @@
         prt(&prt), nameServer(&nameServer), numVendingMachines(numVendingMachines),
         maxShippedPerFlavour(maxShippedPerFlavour), maxStockPerFlavour(maxStockPerFlavour),
         timeBetweenShipments(timeBetweenShipments){
-
+            this->truck = new Truck(prt, nameServer, *this, numVendingMachines, maxStockPerFlavour);
+            closed = false;
         }
 
     bool BottlingPlant::getShipment( unsigned int cargo[] ){
@@ -21,24 +22,24 @@
     }
 
     void BottlingPlant::main(){
-        prt->print(Plant, 'S');
-        Truck truck = new Truck(prt, nameServer, *this, numVendingMachines, maxStockPerFlavour);
+        prt->print(Printer::BottlingPlant, 'S');
+        
         while (true) {
             for (int i = 0; i < 4; i++ ){
                 soda[i] = ran(0, maxShippedPerFlavour);
             }
-            prt->print(Plant, 'G', soda[0]+soda[1]+soda[2]+soda[3]);
+            prt->print(Printer::BottlingPlant, 'G', soda[0]+soda[1]+soda[2]+soda[3]);
             _Accept(~BottlingPlant) {
                 closed = true;
-                prt->print(Plant, 'F');
+                prt->print(Printer::BottlingPlant, 'F');
                 break;
             } or _Accept(getShipment) {
-                prt->print(Plant, 'P');
+                prt->print(Printer::BottlingPlant, 'P');
                 yield(timeBetweenShipments);
             }
         }
     }
 
     BottlingPlant::~BottlingPlant(){
-        delete truck;
+        delete this->truck;
     }

@@ -9,6 +9,7 @@
 using std::map;
 
 _Task NameServer;
+_Task BottlingPlant;
 
 _Monitor Printer {
   public:
@@ -54,6 +55,14 @@ class WATCard {
 };
 
 _Task VendingMachine {
+    Printer *prt;
+    NameServer *nameServer;
+    unsigned int sodaCost;
+    unsigned int id;
+    unsigned int stock[4];
+    bool restocking;
+    bool buySuccess;
+
     void main();
   public:
     enum Flavours { COKE, ICETEA, DRPEPPER, SPRITE };                 // flavours of soda (YOU DEFINE)
@@ -65,6 +74,8 @@ _Task VendingMachine {
     void restocked();
     _Nomutex unsigned int cost();
     _Nomutex unsigned int getId();
+  private:
+    Flavours buyFlavour;
 };
 
 _Task NameServer {
@@ -130,6 +141,19 @@ _Task Parent {
 };
 
 
+_Task Truck {
+    void main();
+    unsigned int cargo[4];
+    Printer *prt;
+    NameServer *nameServer;
+    BottlingPlant *plant;
+    unsigned int numVendingMachines;
+    unsigned int maxStockPerFlavour;
+  public:
+    Truck( Printer &prt, NameServer &nameServer, BottlingPlant &plant,
+           unsigned int numVendingMachines, unsigned int maxStockPerFlavour );
+};
+
 _Task BottlingPlant {
     Printer *prt;
     NameServer *nameServer;
@@ -137,20 +161,17 @@ _Task BottlingPlant {
     unsigned int maxShippedPerFlavour;
     unsigned int maxStockPerFlavour;
     unsigned int timeBetweenShipments;
+    unsigned int soda[4];
+    Truck* truck;
+    bool closed;
     void main();
   public:
     BottlingPlant( Printer &prt, NameServer &nameServer, unsigned int numVendingMachines,
                  unsigned int maxShippedPerFlavour, unsigned int maxStockPerFlavour,
                  unsigned int timeBetweenShipments );
     bool getShipment( unsigned int cargo[] );
+    ~BottlingPlant();
 };
 
-_Task Truck {
-    void main();
-    unsigned int cargo[4];
-  public:
-    Truck( Printer &prt, NameServer &nameServer, BottlingPlant &plant,
-           unsigned int numVendingMachines, unsigned int maxStockPerFlavour );
-};
 
 #endif
