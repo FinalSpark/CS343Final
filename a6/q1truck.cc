@@ -11,7 +11,7 @@ void Truck::main(){
         bool closed = plant->getShipment(cargo);
         if (closed) break;
         prt->print(Printer::Truck, 'P', cargo[0]+cargo[1]+cargo[2]+cargo[3]);
-        for (int i = 0; i<numVendingMachines;i++){
+        for (unsigned int i = 0; i<numVendingMachines;i++){
             unsigned int* inventory = vmList[i]->inventory();
             int unStocked = 0;
             for (int flavour = 0; flavour < 4; flavour++) {   //stock each flavour;

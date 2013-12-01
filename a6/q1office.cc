@@ -6,7 +6,7 @@
   WATCardOffice::WATCardOffice( Printer &prt, Bank &bank, unsigned int numCouriers ):
         prt(&prt), bank(&bank), numCouriers(numCouriers){
         couriers = new Courier*[numCouriers];
-        for (int i = 0; i < numCouriers; i++) {
+        for (unsigned int i = 0; i < numCouriers; i++) {
             couriers[i] = new Courier(&prt, &bank, this);
         }
     }
@@ -36,7 +36,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
     }
 
     WATCardOffice::~WATCardOffice(){
-        for (int i = 0; i < numCouriers; i++) {
+        for (unsigned int i = 0; i < numCouriers; i++) {
             delete couriers[i];
         }
         delete[] couriers;

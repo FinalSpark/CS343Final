@@ -15,7 +15,7 @@ void Bank::withdraw( unsigned int id, unsigned int amount ){
 
 
 Bank::Bank( unsigned int numStudents ):numStudents(numStudents){
-    for (int i = 0; i<numStudents; i++) {
+    for (unsigned int i = 0; i<numStudents; i++) {
         studentBalance.push_back(0);
         condition.push_back(new uCondition());
     }

@@ -59,8 +59,8 @@ class WATCard {
 _Task VendingMachine {
     Printer *prt;
     NameServer *nameServer;
-    unsigned int sodaCost;
     unsigned int id;
+    unsigned int sodaCost;
     unsigned int stock[4];
     bool restocking;
     bool buySuccess;
@@ -118,8 +118,8 @@ _Task WATCardOffice {
         Job( unsigned int sid, unsigned int amount, WATCard *card);
     };
     _Task Courier { 
-        Bank *bank;
         Printer *prt;
+        Bank *bank;
         WATCardOffice *office;
         void main();
       public:

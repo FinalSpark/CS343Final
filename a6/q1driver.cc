@@ -25,12 +25,12 @@ void uMain::main() {
     WATCardOffice wtcrdOffice(prt,bank,parms.numCouriers);
     BottlingPlant plant(prt, nameServer, parms.numVendingMachines, parms.maxShippedPerFlavour, parms.maxStockPerFlavour, parms.timeBetweenShipments);
     Truck truck(prt,nameServer,plant,parms.numVendingMachines, parms.maxStockPerFlavour);
-    for (int i = 0; i < parms.numVendingMachines; i++)
+    for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       machines.push_back(new VendingMachine(prt, nameServer, i, parms.sodaCost, parms.maxStockPerFlavour));
     }
 
-    for (int i = 0; i < parms.numStudents; i++)
+    for (unsigned int i = 0; i < parms.numStudents; i++)
     {
       students.push_back(new Student(prt, nameServer, wtcrdOffice,i, parms.maxPurchases));
     }
