@@ -120,10 +120,11 @@ _Task WATCardOffice {
     _Task Courier { 
         Printer *prt;
         Bank *bank;
+        unsigned int id;
         WATCardOffice *office;
         void main();
       public:
-        Courier(Printer *prt, Bank *bank, WATCardOffice *office);
+        Courier(Printer *prt, Bank *bank, unsigned int id, WATCardOffice *office);
         ~Courier();
     };                 // communicates with bank
 

@@ -7,7 +7,7 @@
         prt(&prt), bank(&bank), numCouriers(numCouriers){
         couriers = new Courier*[numCouriers];
         for (unsigned int i = 0; i < numCouriers; i++) {
-            couriers[i] = new Courier(&prt, &bank, this);
+            couriers[i] = new Courier(&prt, &bank, i, this);
         }
     }
 
@@ -44,8 +44,8 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
 
 
 
-    WATCardOffice::Courier::Courier(Printer *prt, Bank *bank, WATCardOffice *office):
-        prt(prt), bank(bank), office(office){
+    WATCardOffice::Courier::Courier(Printer *prt, Bank *bank, unsigned int id, WATCardOffice *office):
+        prt(prt), bank(bank), id(id), office(office){
 
         }
 
@@ -58,12 +58,13 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
     void WATCardOffice::Courier::main(){
         std::vector<struct WATCardOffice::Job *> doneJobs;
         int count = 0;
-
+        prt->print(Printer::Courier, id, 'S');
         while (true){
             _Accept(~Courier) {
                 for (int i = 0; i < count; i++) {
                     delete doneJobs[i];
                 }
+                prt->print(Printer::Courier, id, 'F');
                 break;
             } _Else{
                 struct Job* job = office->requestWork();
@@ -71,9 +72,11 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
                 if (lostEh) {
                     job->result.exception( new Lost );
                 } else {
+                    prt->print(Printer::Courier, id, 't', job->sid, job->amount);
                     bank->withdraw(job->sid, job->amount);
                     job->card->deposit(job->amount);
                     job->result.delivery(job->card);
+                    prt->print(Printer::Courier, id, 'T', job->sid, job->amount);
 
                 }
                 doneJobs.push_back(job);
