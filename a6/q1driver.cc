@@ -39,8 +39,8 @@ void uMain::main() {
     {
       delete students[i];
     }
-    delete parent;
     delete plant;
+    delete parent;
     delete wtcrdOffice;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {

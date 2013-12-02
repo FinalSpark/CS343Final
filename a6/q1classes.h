@@ -65,10 +65,10 @@ _Task VendingMachine {
     unsigned int sodaCost;
     unsigned int stock[4];
     bool buySuccess;
+    bool restocking;
 
     void main();
   public:
-    bool restocking;
     enum Flavours { COKE, ICETEA, DRPEPPER, SPRITE };                 // flavours of soda (YOU DEFINE)
     enum Status { BUY, STOCK, FUNDS };     // purchase status: successful buy, out of stock, insufficient funds
     VendingMachine( Printer &prt, NameServer &nameServer, unsigned int id, unsigned int sodaCost,

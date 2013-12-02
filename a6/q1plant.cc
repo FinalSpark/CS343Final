@@ -32,6 +32,9 @@
             prt->print(Printer::BottlingPlant, 'G', soda[0]+soda[1]+soda[2]+soda[3]);
             _Accept(~BottlingPlant) {
                 closed = true;
+                _Accept(getShipment)
+                {
+                }
                 prt->print(Printer::BottlingPlant, 'F');
                 break;
             } or _Accept(getShipment) {

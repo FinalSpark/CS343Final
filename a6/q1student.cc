@@ -25,7 +25,7 @@ MPRNG ran(33);
               try {
 
                 //cout << "2id: " << id << "purchases: " << purchases << "restocking" << vm->restocking << endl;
-                cout << "vmId: " << vm->getId() << endl;
+                //cout << "vmId: " << vm->getId() << endl;
                 status = vm->buy(favFlavour, *(card()));
 
                 //cout << "balance: " << card()->getBalance() << "id" << id <<  endl;
