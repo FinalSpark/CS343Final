@@ -21,19 +21,30 @@ void uMain::main() {
 
     Bank bank(parms.numStudents);
     Printer prt(parms.numStudents, parms.numVendingMachines, parms.numCouriers);
-    NameServer nameServer(prt, parms.numVendingMachines, parms.numStudents);
-    WATCardOffice wtcrdOffice(prt,bank,parms.numCouriers);
-    BottlingPlant plant(prt, nameServer, parms.numVendingMachines, parms.maxShippedPerFlavour, parms.maxStockPerFlavour, parms.timeBetweenShipments);
-    Truck truck(prt,nameServer,plant,parms.numVendingMachines, parms.maxStockPerFlavour);
+    NameServer* nameServer = new NameServer(prt, parms.numVendingMachines, parms.numStudents);
+    WATCardOffice* wtcrdOffice = new WATCardOffice(prt,bank,parms.numCouriers);
+    BottlingPlant* plant = new BottlingPlant(prt, *nameServer, parms.numVendingMachines, parms.maxShippedPerFlavour, parms.maxStockPerFlavour, parms.timeBetweenShipments);
+    Parent *parent = new Parent(prt, bank, parms.numStudents, parms.parentalDelay );
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
-      machines.push_back(new VendingMachine(prt, nameServer, i, parms.sodaCost, parms.maxStockPerFlavour));
+      machines.push_back(new VendingMachine(prt, *nameServer, i, parms.sodaCost, parms.maxStockPerFlavour));
     }
 
     for (unsigned int i = 0; i < parms.numStudents; i++)
     {
-      students.push_back(new Student(prt, nameServer, wtcrdOffice,i, parms.maxPurchases));
+      students.push_back(new Student(prt, *nameServer, *wtcrdOffice,i, parms.maxPurchases));
     }
-    
+
+    for (unsigned int i = 0; i < parms.numStudents; i++)
+    {
+      delete students[i];
+    }
+    delete parent;
+    delete plant;
+    delete wtcrdOffice;
+    for (unsigned int i = 0; i < parms.numVendingMachines; i++)
+    {
+      delete machines[i];
+    }
   }
 }

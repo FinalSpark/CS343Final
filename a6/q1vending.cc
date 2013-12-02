@@ -1,6 +1,9 @@
 #include <uC++.h>
 #include "q1classes.h"
+#include <iostream>
 
+using std::cout;
+using std::endl;
 void VendingMachine::main(){
     prt->print(Printer::Vending, id, 'S', sodaCost);
     nameServer->VMregister(this);
@@ -8,15 +11,11 @@ void VendingMachine::main(){
         _Accept(~VendingMachine){
             prt->print(Printer::Vending, id, 'F');
             break;
-        } or _When (!restocking) _Accept(inventory) { 
-            prt->print(Printer::Vending, id, 'r');
-            restocking = true;
+        } or _When (!restocking) _Accept(buy, inventory) {
+
         } or _When (restocking) _Accept(restocked){
-            prt->print(Printer::Vending, id, 'R', sodaCost);
+            // prt->print(Printer::Vending, id, 'R');
             restocking = false;
-        } or _When(!restocking) _Accept(buy) {
-            if (buySuccess)
-                prt->print(Printer::Vending, id, 'B', buyFlavour, stock[buyFlavour]);
         }
     }
 }
@@ -26,18 +25,20 @@ VendingMachine::Status VendingMachine::buy(Flavours flavour, WATCard &card){
     if (stock[flavour] == 0) return STOCK;
     else if (card.getBalance() < sodaCost) return FUNDS;
     else {
+        prt->print(Printer::Vending, id, 'B', flavour, stock[flavour]);
         card.withdraw(sodaCost);
-        buySuccess = true;
-        buyFlavour = flavour; 
         return BUY;
     }
 }
 
 unsigned int * VendingMachine::inventory(){
+    restocking = true;
+    prt->print(Printer::Vending, id, 'r');
     return stock;
 }
 
 void VendingMachine::restocked(){
+    prt->print(Printer::Vending, id, 'R');
     return;
 }
 

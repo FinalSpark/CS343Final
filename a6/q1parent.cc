@@ -9,9 +9,9 @@ void Parent::main(){
             prt->print(Printer::Parent, 'F');
             break;
         } _Else {
+            yield(parentalDelay);
             int student = ran(0, numStudents-1);
             int money = ran(1,3);
-            yield(parentalDelay);
             bank->deposit(student, money);
             prt->print(Printer::Parent, 'D', student, money);
         }
