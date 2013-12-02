@@ -42,7 +42,8 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
 
     VendingMachine * NameServer::getMachine( unsigned int id ){
         sid = id;
-        prt->print(Printer::NameServer, 'N', assignment[sid]);
+        prt->print(Printer::NameServer, 'N', sid, assignment[sid]);
+        //cout << "getmachine number: " << vmList[assignment[id]]->getId() << endl;
         return vmList[assignment[id]];
     }
     VendingMachine ** NameServer::getMachineList(){

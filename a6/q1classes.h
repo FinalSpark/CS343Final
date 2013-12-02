@@ -6,9 +6,11 @@
 #include <uFuture.h>
 #include <map>
 #include <queue>
+#include <iostream>
 
 using std::map;
 using std::vector;
+using namespace std;
 
 _Task NameServer;
 _Task BottlingPlant;
@@ -62,11 +64,11 @@ _Task VendingMachine {
     unsigned int id;
     unsigned int sodaCost;
     unsigned int stock[4];
-    bool restocking;
     bool buySuccess;
 
     void main();
   public:
+    bool restocking;
     enum Flavours { COKE, ICETEA, DRPEPPER, SPRITE };                 // flavours of soda (YOU DEFINE)
     enum Status { BUY, STOCK, FUNDS };     // purchase status: successful buy, out of stock, insufficient funds
     VendingMachine( Printer &prt, NameServer &nameServer, unsigned int id, unsigned int sodaCost,

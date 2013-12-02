@@ -13,7 +13,7 @@ vector <VendingMachine *> machines;
 vector <Student *> students;
 void uMain::main() {
   struct ConfigParms parms;
-  parms = {2, 2, 8, 3, 5, 3, 3, 2, 1}; //default params
+  parms = {2, 3, 8, 3, 5, 3, 3, 2, 1}; //default params
   
   //TODO add file reading and parsing
 

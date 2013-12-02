@@ -4,7 +4,7 @@
 #include <uFuture.h>
 #include <iostream>
 using namespace std;
-MPRNG ran;
+MPRNG ran(33);
 
     void Student::main(){
         int purchases = ran(1, maxPurchases);
@@ -14,6 +14,7 @@ MPRNG ran;
         VendingMachine *vm = nameServer->getMachine(id);
         prt->print( Printer::Student, id, 'V', vm->getId());
         while(purchases) {
+                //cout << "1id: " << id << "purchases: " << purchases << endl;
             int times = ran(1,10);
             yield(times);
             bool watCardLost;
@@ -22,7 +23,12 @@ MPRNG ran;
 
             do {
               try {
+
+                //cout << "2id: " << id << "purchases: " << purchases << "restocking" << vm->restocking << endl;
+                cout << "vmId: " << vm->getId() << endl;
                 status = vm->buy(favFlavour, *(card()));
+
+                //cout << "balance: " << card()->getBalance() << "id" << id <<  endl;
                 watCardLost = false;
               } catch (WATCardOffice::Lost& e) {
                   watCardLost = true;

@@ -14,11 +14,16 @@
     WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount ){
         Job* job = new Job(sid, amount, new WATCard());
         jobs.push(job);
+
+          prt->print(Printer::WATCardOffice, 'C', sid, amount);
+            //cout << "office create: " << sid << " size:" << jobs.size()  << endl;
         return job->result;
     }
     WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard *card ){
         Job* job = new Job(sid, amount, card);
         jobs.push(job);
+
+          prt->print(Printer::WATCardOffice, 'T', sid, amount);
         return job->result;
     }
 struct WATCardOffice::Job *WATCardOffice::requestWork(){
@@ -26,13 +31,18 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
     }
 
     void WATCardOffice::main(){
+      prt->print(Printer::WATCardOffice, 'S');
+      while (true)
+      {
         _Accept (~WATCardOffice) {
 
-        } or _Accept (transfer, create) {
+        } or _Accept (create) {
+        } or _Accept (transfer) {
 
         } or _When (jobs.size() > 0 ) _Accept (requestWork) {
             jobs.pop();
         }
+      }
     }
 
     WATCardOffice::~WATCardOffice(){
@@ -72,6 +82,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
                 if (lostEh) {
                     job->result.exception( new Lost );
                 } else {
+                        //cout << "courier id: " << job->sid << endl;
                     prt->print(Printer::Courier, id, 't', job->sid, job->amount);
                     bank->withdraw(job->sid, job->amount);
                     job->card->deposit(job->amount);

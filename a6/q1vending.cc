@@ -14,17 +14,22 @@ void VendingMachine::main(){
         } or _When (!restocking) _Accept(buy, inventory) {
 
         } or _When (restocking) _Accept(restocked){
-            // prt->print(Printer::Vending, id, 'R');
+             prt->print(Printer::Vending, id, 'R');
             restocking = false;
         }
     }
 }
 
 VendingMachine::Status VendingMachine::buy(Flavours flavour, WATCard &card){
+        //cout << "here in vending" << endl;
+            //cout << "1vending:: buy id: " << id;
+            //cout << "  stock flavor: " << stock[flavour] << endl;
     buySuccess = false;
     if (stock[flavour] == 0) return STOCK;
     else if (card.getBalance() < sodaCost) return FUNDS;
     else {
+
+            //cout << "2vending:: buy id: " << id << endl;
         prt->print(Printer::Vending, id, 'B', flavour, stock[flavour]);
         card.withdraw(sodaCost);
         return BUY;
@@ -38,7 +43,7 @@ unsigned int * VendingMachine::inventory(){
 }
 
 void VendingMachine::restocked(){
-    prt->print(Printer::Vending, id, 'R');
+    //prt->print(Printer::Vending, id, 'R');
     return;
 }
 
