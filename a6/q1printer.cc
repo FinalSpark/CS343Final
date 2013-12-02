@@ -229,7 +229,7 @@ using std::endl;
             case Courier: id = 5+numStudents+numVendingMachines+lid; break;
         }
 
-        for (unsigned int i = 0; i<5+numStudents+numStudents+numVendingMachines; i++) {
+        for (unsigned int i = 0; i<5+numStudents+numVendingMachines+numCouriers; i++) {
           if (i == id) {
             cout<<'F'<<"\t";
           } else {

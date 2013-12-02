@@ -20,3 +20,11 @@ Bank::Bank( unsigned int numStudents ):numStudents(numStudents){
         condition.push_back(new uCondition());
     }
 }
+
+Bank::~Bank(){
+  for (int i = 0; i < condition.size(); i++)
+  {
+    delete condition.at(i);
+  }
+
+}

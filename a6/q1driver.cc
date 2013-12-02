@@ -42,6 +42,7 @@ void uMain::main() {
     delete plant;
     delete parent;
     delete wtcrdOffice;
+    delete nameServer;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       delete machines[i];

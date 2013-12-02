@@ -33,35 +33,34 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
       prt->print(Printer::WATCardOffice, 'S');
       while (true)
       {
-        _Accept (~WATCardOffice) {
-            cout << "reach here1" << endl;
+        _When (jobs.size() > 0 ) _Accept (requestWork) {
+            jobs.pop();
+        } or _Accept (create, transfer) {
+
+        } or _Accept (~WATCardOffice) {
+            //cout << "reach here1 numcourier: " << numCouriers << endl;
             int dummy = -1;
 
             for (unsigned int i = 0; i < numCouriers; i++) {
-               create(dummy, 0);
-              /*Job* job = new Job(dummy, 0, NULL);
-              jobs.push(job);*/
-              /*_Accept (requestWork){
+              Job* job = new Job(dummy, 0, NULL);
+              jobs.push(job);
+              _Accept (requestWork){
                 jobs.pop();
-              }*/
+              }
             }
             prt->print(Printer::WATCardOffice, 'F');
             break;
-        } or _Accept (create, transfer) {
-
-        } or _When (jobs.size() > 0 ) _Accept (requestWork) {
-            jobs.pop();
         }
       }
     }
 
     WATCardOffice::~WATCardOffice(){
 
-            cout << "reach here2 job count" << jobs.size() << endl;
+            //cout << "reach here2 job count" << jobs.size() << endl;
         for (unsigned int i = 0; i < numCouriers; i++) {
             delete couriers[i];
         }
-            cout << "reach here3" << endl;
+            //cout << "reach here3" << endl;
         delete[] couriers;
     }
 
@@ -87,17 +86,20 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
                 if (job->sid == -1)
                 {
                   _Accept(~Courier) {
-                      cout << "reach here4" << endl;
+                      //cout << "reach here4" << endl;
                       for (int i = 0; i < count; i++) {
+                        delete doneJobs[i]->card;
                         delete doneJobs[i];
                       }
+                      //cout << "reach here5" << endl;
                   }
                 prt->print(Printer::Courier, id, 'F');
 
-                  continue;
+                  break; 
                 }
                 bool lostEh = ran(0, 5) == 0;
                 if (lostEh) {
+                    delete job->card;
                     job->result.exception( new Lost );
                 } else {
                         //cout << "courier id: " << job->sid << endl;
