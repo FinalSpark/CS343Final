@@ -16,6 +16,7 @@
         if (closed) return true;
         for (int i = 0; i < 4; i++ ){
             cargo[i] = soda[i];
+            soda[i] = 0;
         }
         return false;
 

@@ -30,9 +30,12 @@ void Truck::main(){
             }
             prt->print(Printer::Truck, 'd', i, cargo[0]+cargo[1]+cargo[2]+cargo[3]);
             vmList[i]->restocked();
+            if (!(cargo[0]+cargo[1]+cargo[2]+cargo[3])){
+                break;
+            }
         }
     }
-            prt->print(Printer::Truck, 'F');
+    prt->print(Printer::Truck, 'F');
 }
 
 Truck::Truck( Printer &prt, NameServer &nameServer, BottlingPlant &plant,

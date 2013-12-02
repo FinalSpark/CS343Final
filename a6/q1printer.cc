@@ -34,6 +34,7 @@ using std::endl;
         if ( sGeneral.count(kind) || state == 'F') {
             flush();
             if (state == 'F') flushFinish(kind, -1);
+            else sGeneral.insert(std::pair<Kind, char>(kind, state));
         } else {
             sGeneral.insert(std::pair<Kind, char>(kind, state));
         }
@@ -115,87 +116,87 @@ using std::endl;
 
     void Printer::flush(){
         if (sGeneral.count(Parent)) {
-            cout<<sGeneral.at(Parent);
+            cout<<sGeneral[Parent];
             if (generalNumber1.count(Parent)) {
-                cout<<generalNumber1.at(Parent);
+                cout<<generalNumber1[Parent];
             }
             if (generalNumber2.count(Parent)) {
-                cout<<','<<generalNumber2.at(Parent);
+                cout<<','<<generalNumber2[Parent];
             }
         }
         cout<<"\t";
         if (sGeneral.count(WATCardOffice)) {
-            cout<<sGeneral.at(WATCardOffice);
+            cout<<sGeneral[WATCardOffice];
             if (generalNumber1.count(WATCardOffice)) {
-                cout<<generalNumber1.at(WATCardOffice);
+                cout<<generalNumber1[WATCardOffice];
             }
             if (generalNumber2.count(WATCardOffice)) {
-                cout<<','<<generalNumber2.at(WATCardOffice);
+                cout<<','<<generalNumber2[WATCardOffice];
             }
         }
         cout<<"\t";
         if (sGeneral.count(NameServer)) {
-            cout<<sGeneral.at(NameServer);
-            if (generalNumber1.count(WATCardOffice)) {
-                cout<<generalNumber1.at(WATCardOffice);
+            cout<<sGeneral[NameServer];
+            if (generalNumber1.count(NameServer)) {
+                cout<<generalNumber1[NameServer];
             }
-            if (generalNumber2.count(WATCardOffice)) {
-                cout<<','<<generalNumber2.at(WATCardOffice);
+            if (generalNumber2.count(NameServer)) {
+                cout<<','<<generalNumber2[NameServer];
             }
         }
         cout<<"\t";
         if (sGeneral.count(Truck)) {
-            cout<<sGeneral.at(Truck);
+            cout<<sGeneral[Truck];
             if (generalNumber1.count(Truck)) {
-                cout<<generalNumber1.at(Truck);
+                cout<<generalNumber1[Truck];
             }
             if (generalNumber2.count(Truck)) {
-                cout<<','<<generalNumber2.at(Truck);
+                cout<<','<<generalNumber2[Truck];
             }
         }
         cout<<"\t";
         if (sGeneral.count(BottlingPlant)) {
-            cout<<sGeneral.at(BottlingPlant);
+            cout<<sGeneral[BottlingPlant];
             if (generalNumber1.count(BottlingPlant)) {
-                cout<<generalNumber1.at(BottlingPlant);
+                cout<<generalNumber1[BottlingPlant];
             }
             if (generalNumber2.count(BottlingPlant)) {
-                cout<<','<<generalNumber2.at(BottlingPlant);
+                cout<<','<<generalNumber2[BottlingPlant];
             }
         }
         cout<<"\t";
         for (unsigned int i = 0; i < numStudents; i++) {
             if (sStudent.count(i)) {
-                cout<<sStudent.at(i);
+                cout<<sStudent[i];
                 if (studentNumber1.count(i)) {
-                    cout<<studentNumber1.at(i);
+                    cout<<studentNumber1[i];
                 }
                 if (studentNumber2.count(i)) {
-                    cout<<','<<studentNumber2.at(i);
+                    cout<<','<<studentNumber2[i];
                 }
             }
             cout<<"\t";
         }
         for (unsigned int i = 0; i < numVendingMachines; i++) {
             if (sVending.count(i)) {
-                cout<<sVending.at(i);
+                cout<<sVending[i];
                 if (vendingNumber1.count(i)) {
-                    cout<<vendingNumber1.at(i);
+                    cout<<vendingNumber1[i];
                 }
                 if (vendingNumber2.count(i)) {
-                    cout<<','<<vendingNumber2.at(i);
+                    cout<<','<<vendingNumber2[i];
                 }
             }
             cout<<"\t";
         }
         for (unsigned int i = 0; i < numCouriers; i++) {
             if (sCourier.count(i)) {
-                cout<<sCourier.at(i);
+                cout<<sCourier[i];
                 if (courierNumber1.count(i)) {
-                    cout<<courierNumber1.at(i);
+                    cout<<courierNumber1[i];
                 }
                 if (courierNumber2.count(i)) {
-                    cout<<','<<courierNumber2.at(i);
+                    cout<<','<<courierNumber2[i];
                 }
             }
             cout<<"\t";
@@ -207,6 +208,8 @@ using std::endl;
         vendingNumber2.clear();
         courierNumber1.clear();
         courierNumber2.clear();
+        generalNumber1.clear();
+        generalNumber2.clear();
         sStudent.clear();
         sVending.clear();
         sCourier.clear();
@@ -232,8 +235,8 @@ using std::endl;
           } else {
             cout<<"...\t";
           }
-        cout<<endl;
         }
+        cout<<endl;
     }
 
 

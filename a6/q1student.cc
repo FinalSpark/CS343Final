@@ -13,22 +13,23 @@ MPRNG ran;
         WATCard::FWATCard card = cardOffice->create(id, 5);
         VendingMachine *vm = nameServer->getMachine(id);
         prt->print( Printer::Student, id, 'V', vm->getId());
-        while(true) {
+        while(purchases) {
             int times = ran(1,10);
             yield(times);
-            bool watCardLost = true;
+            bool watCardLost;
             VendingMachine::Status status;
             unsigned int balance;
 
-            while (watCardLost) {
-                try {
-                    status = vm->buy(favFlavour, *(card()));
-                    watCardLost = false;
-                } catch (WATCardOffice::Lost& e) {
-                    prt->print( Printer::Student, id, 'L');
-                    card = cardOffice->create(id, 5);
-                }
-            }
+            do {
+              try {
+                status = vm->buy(favFlavour, *(card()));
+                watCardLost = false;
+              } catch (WATCardOffice::Lost& e) {
+                  watCardLost = true;
+                  prt->print( Printer::Student, id, 'L');
+                  card = cardOffice->create(id, 5);
+              }
+            } while (watCardLost);
 
             switch (status) {
                 case VendingMachine::BUY:

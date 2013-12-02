@@ -2,7 +2,6 @@
 #include "q1classes.h"
 #include "MPRNG.h"
 
-
 NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned int numStudents ):
     prt(&prt), numVendingMachines(numVendingMachines), numStudents(numStudents){
         vmList = new VendingMachine*[numVendingMachines];
@@ -20,14 +19,15 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
             _Accept(VMregister){
                 vmCounter++;
                 prt->print(Printer::NameServer, 'R', vid);
+
             }
         }
         while (true) {
             _Accept (~NameServer){
-                prt->print(Printer::NameServer, 'F', assignment[sid]);
+                prt->print(Printer::NameServer, 'F');
                 break;
             } or _Accept(getMachine) {
-                prt->print(Printer::NameServer, 'N', assignment[sid]);
+
                 assignment[sid] = (assignment[sid]+1)%numVendingMachines;
             } or _Accept(getMachineList){
 
@@ -37,11 +37,12 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
 
     void NameServer::VMregister( VendingMachine *vendingmachine ){
         vid = vendingmachine->getId();
-        vmList[vendingmachine->getId()] = vendingmachine;
+        vmList[vid] = vendingmachine;
     }
 
     VendingMachine * NameServer::getMachine( unsigned int id ){
         sid = id;
+        prt->print(Printer::NameServer, 'N', assignment[sid]);
         return vmList[assignment[id]];
     }
     VendingMachine ** NameServer::getMachineList(){
