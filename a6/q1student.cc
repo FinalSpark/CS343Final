@@ -24,11 +24,11 @@ MPRNG ran(33);
             do {
               try {
 
-                //cout << "2id: " << id << "purchases: " << purchases << "restocking" << vm->restocking << endl;
-                //cout << "vmId: " << vm->getId() << endl;
+                cout << "2id: " << id << "purchases: " << purchases  << endl;
+                cout << "vmId: " << vm->getId() << endl;
                 status = vm->buy(favFlavour, *(card()));
 
-                //cout << "balance: " << card()->getBalance() << "id" << id <<  endl;
+                cout << "balance: " << card()->getBalance() << "id" << id <<  endl;
                 watCardLost = false;
               } catch (WATCardOffice::Lost& e) {
                   watCardLost = true;

@@ -15,8 +15,9 @@
         Job* job = new Job(sid, amount, new WATCard());
         jobs.push(job);
         prt->print(Printer::WATCardOffice, 'C', sid, amount);
-            //cout << "office create: " << sid << " size:" << jobs.size()  << endl;
+            cout << "office create: " << sid << " size:" << jobs.size()  << endl;
         condition.signal();
+        cout << "signal from create" << endl;
         return job->result;
     }
     WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard *card ){
@@ -24,7 +25,9 @@
         jobs.push(job);
 
         prt->print(Printer::WATCardOffice, 'T', sid, amount);
+        cout << "push transfer id" <<  sid  << endl;
         condition.signal();
+        cout << "signal from transfer" << endl;
         return job->result;
     }
 struct WATCardOffice::Job *WATCardOffice::requestWork(){
@@ -35,8 +38,10 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
           condition.wait();
                 //cout << "here3" << endl;
         }
+        struct WATCardOffice::Job * temp = jobs.front();
         //return NULL;
-        return jobs.front();
+        jobs.pop();
+        return temp;
     }
 
     void WATCardOffice::main(){
@@ -44,7 +49,6 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
       while (true)
       {
         _Accept (requestWork) {
-            jobs.pop();
         } or _Accept (create, transfer) {
 
         } or _Accept (~WATCardOffice) {
@@ -66,7 +70,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
 
     WATCardOffice::~WATCardOffice(){
 
-            //cout << "reach here2 job count" << jobs.size() << endl;
+            cout << "reach here2 job count" << jobs.size() << endl;
         while (!condition.empty())
         {
           condition.signal();
@@ -74,7 +78,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
         for (unsigned int i = 0; i < numCouriers; i++) {
             delete couriers[i];
         }
-            //cout << "reach here3" << endl;
+            cout << "reach here3" << endl;
         delete[] couriers;
     }
 
@@ -96,17 +100,17 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
         int count = 0;
         prt->print(Printer::Courier, id, 'S');
         while (true){
-                //cout << "before request" << endl;
+                cout << "before request" << endl;
                 struct Job* job = office->requestWork();
-                //cout << "after request id: " << job->sid << endl;
+                cout << "after request id: " << job->sid << endl;
                 if (job->sid == -1)
                 {
                   _Accept(~Courier) {
-                      //cout << "reach here4" << endl;
+                      cout << "reach here4" << endl;
                       for (int i = 0; i < count; i++) {
                         delete doneJobs[i];
                       }
-                      //cout << "reach here5" << endl;
+                      cout << "reach here5" << endl;
                   }
                 prt->print(Printer::Courier, id, 'F');
 
@@ -118,7 +122,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
                     job->result.exception( new Lost );
                 } else {
                         //cout << "courier id: " << job->sid << endl;
-                    //cout << "middle of courier main id: " << job->sid << endl;
+                    cout << "middle of courier main id: " << job->sid << endl;
                     prt->print(Printer::Courier, id, 't', job->sid, job->amount);
                     bank->withdraw(job->sid, job->amount);
 
@@ -127,7 +131,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
                     prt->print(Printer::Courier, id, 'T', job->sid, job->amount);
 
                 }
-                //cout << "end of courier main id: " << job->sid << endl;
+                cout << "end of courier main id: " << job->sid << endl;
                 doneJobs.push_back(job);
         }
     }
