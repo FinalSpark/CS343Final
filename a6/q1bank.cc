@@ -2,10 +2,16 @@
 #include "q1classes.h"
 #include "MPRNG.h"
 
+
+/**
+ * Each student account has a condition variable. Call to withdraw is blocked until there is sufficient fund
+ */
 void Bank::deposit( unsigned int id, unsigned int amount ){
     studentBalance[id]+=amount;
-    condition[id]->signalBlock();
+    condition[id]->signal();
 }
+
+
 void Bank::withdraw( unsigned int id, unsigned int amount ){
     while (amount > studentBalance[id]) {
         condition[id]->wait();
