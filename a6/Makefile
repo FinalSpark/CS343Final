@@ -2,7 +2,7 @@ CXX = u++					# compiler
 CXXFLAGS = -g -Wall -MMD			# compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
-OBJECTS = q1driver.o q1printer.o q1student.o q1bank.o q1parent.o q1plant.o q1truck.o q1vending.o q1name.o q1card.o q1office.o	# object files forming executable
+OBJECTS = config.o q1driver.o q1printer.o q1student.o q1bank.o q1parent.o q1plant.o q1truck.o q1vending.o q1name.o q1card.o q1office.o	# object files forming executable
 DEPENDS = ${OBJECTS:.o=.d}			# substitute ".o" with ".d"
 EXEC = soda      					# executable name
 

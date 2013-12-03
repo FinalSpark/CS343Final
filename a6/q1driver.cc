@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <time.h>
+#include "MPRNG.h"
 
 using std::cout;
 using std::endl;
@@ -26,10 +27,8 @@ void uMain::main() {
     default: break;
   }
   struct ConfigParms parms;
-  processConfigFile(configFile, parms);
-  ran.seed(Seed);
-
-  parms = {2, 3, 8, 3, 5, 3, 3, 2, 1}; //default params
+  processConfigFile(configFile.c_str(), parms);
+  ran.seed(randomSeed);
   
   //TODO add file reading and parsing
 
@@ -56,12 +55,13 @@ void uMain::main() {
       delete students[i];
     }
     delete plant;
-    delete parent;
     delete wtcrdOffice;
     delete nameServer;
+    delete parent;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       delete machines[i];
     }
+
   }
 }
