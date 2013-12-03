@@ -6,6 +6,10 @@
 using std::cout;
 using std::endl;
 
+    /**
+     * Printer::(constructor) 
+     * store the arguments, print the first two lines;
+     */
     Printer::Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers ):
         numStudents(numStudents), numVendingMachines(numVendingMachines), numCouriers(numCouriers){
 
@@ -27,7 +31,17 @@ using std::endl;
         cout<<endl;
     }
 
+    /**
+     * Printer: print
+     * @param kind      type of task having update in state
+     * @param state     state letter
+     *
+     * If there were records in sGeneral map, flush
+     * If the state is Finished 'F', flush finish line
+     * record the states in sGeneral if the new state is not 'F'
+     */
     void Printer::print( Kind kind, char state ){
+        //Ensure only legal tasks are calling this method
         assert(kind!=Student);
         assert(kind!=Vending);
         assert(kind!=Courier);
@@ -40,7 +54,9 @@ using std::endl;
         }
 
     }
+
     void Printer::print( Kind kind, unsigned int lid, char state ){
+        //Ensure only legal tasks are calling this method
         assert(kind!=Parent);
         assert(kind!=WATCardOffice);
         assert(kind!=NameServer);
