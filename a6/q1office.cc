@@ -28,11 +28,10 @@
     }
 struct WATCardOffice::Job *WATCardOffice::requestWork(){
                 //cout << "here1" << endl;
+        cout << jobs.size() << endl;
         while (jobs.size() < 1)
         {
-                //cout << "here2" << endl;
           condition.wait();
-                //cout << "here3" << endl;
         }
         struct WATCardOffice::Job * temp = jobs.front();
         //return NULL;
@@ -50,13 +49,19 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
 
         } or _Accept (~WATCardOffice) {
             int dummy = -1;
-            for (unsigned int i = 0; i < jobs.size(); i++) {
+            while (jobs.size() > 0) {
                 delete jobs.front();
                 jobs.pop();
             }
             for (unsigned int i = 0; i < numCouriers; i++) {
               Job* job = new Job(dummy, 0, NULL);
               jobs.push(job);
+            }
+            for (unsigned int i = 0; i < numCouriers; i++) {
+              cout<<"dummy size:"<<jobs.size()<<endl;
+              _Accept(requestWork){
+
+              }
             }
             prt->print(Printer::WATCardOffice, 'F');
             break;
@@ -88,7 +93,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
 
     WATCardOffice::Courier::~Courier()
     {
-
+        prt->print(Printer::Courier, id, 'F');
     }
     
     void WATCardOffice::Courier::main(){
@@ -96,16 +101,13 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
         int count = 0;
         prt->print(Printer::Courier, id, 'S');
         while (true){
+                cout<<"requesting job"<<endl;
                 struct Job* job = office->requestWork();
                 if (job->sid == -1)
                 {
-                  _Accept(~Courier) {
-                      for (int i = 0; i < count; i++) {
+                    for (int i = 0; i < count; i++) {
                         delete doneJobs[i];
-                      }
-                  }
-                prt->print(Printer::Courier, id, 'F');
-
+                    }
                   break; 
                 }
                 bool lostEh = ran(0, 5) == 0;
@@ -113,7 +115,7 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
                     //delete job->card;
                     job->result.exception( new Lost );
                 } else {
-                        //cout << "courier id: " << job->sid << endl;
+                    cout << "courier id: " << job->sid << endl;
                     prt->print(Printer::Courier, id, 't', job->sid, job->amount);
                     bank->withdraw(job->sid, job->amount);
 
