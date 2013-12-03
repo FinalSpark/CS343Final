@@ -1,18 +1,34 @@
 #include "q1classes.h"
 #include "config.h"
 #include <unistd.h>
+#include <iostream>
+#include <time.h>
 
+using std::cout;
+using std::endl;
 using std::vector;
 
 void usage()
 {
+
   exit(-1);
 }
 
 vector <VendingMachine *> machines;
 vector <Student *> students;
 void uMain::main() {
+  string configFile = "soda.Config";
+  time_t randomSeed = time(NULL);
+  switch (argc) {
+    case 3: randomSeed = atoi(argv[2]);
+    case 2: configFile = argv[1];
+    case 1: break;
+    default: break;
+  }
   struct ConfigParms parms;
+  processConfigFile(configFile, parms);
+  ran.seed(Seed);
+
   parms = {2, 3, 8, 3, 5, 3, 3, 2, 1}; //default params
   
   //TODO add file reading and parsing
