@@ -51,10 +51,8 @@
     * Otherwise, wait till there are jobs 
     */
     struct WATCardOffice::Job *WATCardOffice::requestWork(){
-                //cout << "here1" << endl;
         while (jobs.size() < 1 && !terminated)
         {
-        cout << jobs.size() << endl;
           condition.wait();
         }
         struct WATCardOffice::Job * temp = jobs.front();
@@ -102,11 +100,9 @@
 
     WATCardOffice::~WATCardOffice(){
 
-            cout << "reach here2 job count" << jobs.size() << endl;
         for (unsigned int i = 0; i < numCouriers; i++) {
             delete couriers[i];
         }
-            cout << "reach here3" << endl;
         delete[] couriers;
     }
 
@@ -135,7 +131,6 @@
         int count = 0;
         prt->print(Printer::Courier, id, 'S');
         while (true){
-                cout<<"requesting job"<<endl;
                 struct Job* job = office->requestWork();
                 if (job->sid == -1)
                 {
@@ -151,7 +146,6 @@
                     //delete job->card;
                     job->result.exception( new Lost );
                 } else {
-                    cout << "courier id: " << job->sid << endl;
 
                     job->card->deposit(job->amount);
                     job->result.delivery(job->card);

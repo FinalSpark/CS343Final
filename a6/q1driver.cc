@@ -29,10 +29,9 @@ void uMain::main() {
           break;
   }
   struct ConfigParms parms;
-  //processConfigFile(configFile.c_str(), parms);
-  ran.seed(33);
+  processConfigFile(configFile.c_str(), parms);
+  ran.seed(randomSeed);
  
-  parms = {2, 4, 10, 5, 10, 4, 7, 10, 1}; //default params
 
   //TODO add file reading and parsing
 
@@ -60,13 +59,11 @@ void uMain::main() {
     }
     delete plant;
     delete nameServer;
-    cout<<"nameServer finished"<<endl;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       delete machines[i];
     }
     delete wtcrdOffice;
-    cout<<"office finished"<<endl;
     delete parent;
 
   }

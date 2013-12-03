@@ -9,7 +9,7 @@ void Truck::main(){
         int times = ran(1, 10); //Tim Horton's
         yield(times);
         bool closed = plant->getShipment(cargo);
-        if (closed) { cout << "here" << endl; break;}
+        if (closed) {  break;}
         prt->print(Printer::Truck, 'P', cargo[0]+cargo[1]+cargo[2]+cargo[3]);
         for (unsigned int i = 0; i<numVendingMachines;i++){
             unsigned int* inventory = vmList[i]->inventory();

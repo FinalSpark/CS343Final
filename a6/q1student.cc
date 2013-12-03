@@ -4,7 +4,7 @@
 #include <uFuture.h>
 #include <iostream>
 using namespace std;
-MPRNG ran(33);
+MPRNG ran;
 
     void Student::main(){
         int purchases = ran(1, maxPurchases);
