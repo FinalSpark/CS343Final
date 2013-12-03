@@ -28,9 +28,9 @@
     }
 struct WATCardOffice::Job *WATCardOffice::requestWork(){
                 //cout << "here1" << endl;
-        cout << jobs.size() << endl;
-        while (jobs.size() < 1)
+        while (jobs.size() < 1 && !terminated)
         {
+        cout << jobs.size() << endl;
           condition.wait();
         }
         struct WATCardOffice::Job * temp = jobs.front();
@@ -57,11 +57,10 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
               Job* job = new Job(dummy, 0, NULL);
               jobs.push(job);
             }
-            for (unsigned int i = 0; i < numCouriers; i++) {
-              cout<<"dummy size:"<<jobs.size()<<endl;
-              _Accept(requestWork){
-
-              }
+            terminated = true;
+            while (!condition.empty())
+            {
+              condition.signalBlock();
             }
             prt->print(Printer::WATCardOffice, 'F');
             break;
@@ -72,10 +71,6 @@ struct WATCardOffice::Job *WATCardOffice::requestWork(){
     WATCardOffice::~WATCardOffice(){
 
             cout << "reach here2 job count" << jobs.size() << endl;
-        while (!condition.empty())
-        {
-          condition.signalBlock();
-        }
         for (unsigned int i = 0; i < numCouriers; i++) {
             delete couriers[i];
         }

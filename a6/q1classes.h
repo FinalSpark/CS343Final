@@ -132,6 +132,7 @@ _Task WATCardOffice {
     };                 // communicates with bank
 
     void main();
+    bool terminated;
     Printer * prt;
     Bank * bank;
     unsigned int numCouriers;
