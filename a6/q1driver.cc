@@ -61,13 +61,13 @@ void uMain::main() {
     delete plant;
     delete nameServer;
     cout<<"nameServer finished"<<endl;
-    delete parent;
-    delete wtcrdOffice;
-    cout<<"office finished"<<endl;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       delete machines[i];
     }
+    delete wtcrdOffice;
+    cout<<"office finished"<<endl;
+    delete parent;
 
   }
 }
