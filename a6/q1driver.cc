@@ -24,7 +24,9 @@ void uMain::main() {
     case 3: randomSeed = atoi(argv[2]);
     case 2: configFile = argv[1];
     case 1: break;
-    default: break;
+    default: 
+          cout<<"soda [ config-file [ random-seed ] ]"<<endl;
+          break;
   }
   struct ConfigParms parms;
   //processConfigFile(configFile.c_str(), parms);
@@ -57,9 +59,11 @@ void uMain::main() {
       delete students[i];
     }
     delete plant;
-    delete wtcrdOffice;
     delete nameServer;
+    cout<<"nameServer finished"<<endl;
     delete parent;
+    delete wtcrdOffice;
+    cout<<"office finished"<<endl;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       delete machines[i];

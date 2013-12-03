@@ -14,7 +14,6 @@ MPRNG ran(33);
         VendingMachine *vm = nameServer->getMachine(id);
         prt->print( Printer::Student, id, 'V', vm->getId());
         while(purchases) {
-                //cout << "1id: " << id << "purchases: " << purchases << endl;
             int times = ran(1,10);
             yield(times);
             bool watCardLost;
@@ -22,19 +21,14 @@ MPRNG ran(33);
             unsigned int balance;
 
             do {
-              try {
-
-                cout << "2id: " << id << "purchases: " << purchases  << endl;
-                cout << "vmId: " << vm->getId() << endl;
-                status = vm->buy(favFlavour, *(card()));
-
-                cout << "balance: " << card()->getBalance() << "id" << id <<  endl;
-                watCardLost = false;
-              } catch (WATCardOffice::Lost& e) {
-                  watCardLost = true;
-                  prt->print( Printer::Student, id, 'L');
-                  card = cardOffice->create(id, 5);
-              }
+                try {
+                    status = vm->buy(favFlavour, *(card()));
+                    watCardLost = false;
+                } catch (WATCardOffice::Lost& e) {
+                    watCardLost = true;
+                    prt->print( Printer::Student, id, 'L');
+                    card = cardOffice->create(id, 5);
+                }
             } while (watCardLost);
 
             switch (status) {
