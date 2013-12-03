@@ -2,6 +2,13 @@
 #include "q1classes.h"
 #include "MPRNG.h"
 
+
+/**
+ * periodically gets drinks from factory.
+ * if plant is closed, break;
+ * otherwise try to restock the vending machines one by one. When the truck has no drinks left, stop restock the vending machine
+ * try pickup new drinks and restart stocking
+ */
 void Truck::main(){
     VendingMachine ** vmList = nameServer->getMachineList();
     prt->print(Printer::Truck, 'S');

@@ -13,6 +13,11 @@ NameServer::NameServer( Printer &prt, unsigned int numVendingMachines, unsigned 
         }
     }
 
+    /**
+    * NameServer::main
+    * First accept register. After all vending machines are registered, proceed to accept getMachine and getMachineList
+    * Not actually doing much, server keeps track of the assignment of all students, and increment the number everytime a student requests to get Machine
+    */
     void NameServer::main(){
         prt->print(Printer::NameServer, 'S');
         while(vmCounter<numVendingMachines) {

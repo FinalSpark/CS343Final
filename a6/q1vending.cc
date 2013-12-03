@@ -4,6 +4,12 @@
 
 using std::cout;
 using std::endl;
+
+/**
+    block calls to buy and inventory if the vm is currently being restocking.
+    Otherwise block restocked ();
+*/
+
 void VendingMachine::main(){
     prt->print(Printer::Vending, id, 'S', sodaCost);
     nameServer->VMregister(this);

@@ -9,6 +9,7 @@ using std::endl;
     /**
      * Printer::(constructor) 
      * store the arguments, print the first two lines;
+     * all data will be recorded in the maps
      */
     Printer::Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers ):
         numStudents(numStudents), numVendingMachines(numVendingMachines), numCouriers(numCouriers){
@@ -35,11 +36,13 @@ using std::endl;
      * Printer: print
      * @param kind      type of task having update in state
      * @param state     state letter
-     *
+     * 
      * If there were records in sGeneral map, flush
      * If the state is Finished 'F', flush finish line
      * record the states in sGeneral if the new state is not 'F'
      */
+
+
     void Printer::print( Kind kind, char state ){
         //Ensure only legal tasks are calling this method
         assert(kind!=Student);
@@ -130,6 +133,10 @@ using std::endl;
         }
     }
 
+    /**
+     * Flush the status and numbers recorded.
+     * clear all maps.
+     */
     void Printer::flush(){
         if (sGeneral.count(Parent)) {
             cout<<sGeneral[Parent];
@@ -232,6 +239,9 @@ using std::endl;
         sGeneral.clear();
     }
 
+    /**
+     * Use to flush for Finished status
+     */
     void Printer::flushFinish(Kind kind, unsigned int lid){
         int id = -1;
         switch(kind){

@@ -6,6 +6,11 @@
 using namespace std;
 MPRNG ran;
 
+/**
+ student tries to purchase drink.
+ If card is lost, exception is thrown, new card will be created.
+  (works as described in assignment)
+*/
     void Student::main(){
         int purchases = ran(1, maxPurchases);
         VendingMachine::Flavours favFlavour =  static_cast<VendingMachine::Flavours>(ran(0, 3));

@@ -71,6 +71,8 @@
     * Push dummy jobs to the queue to signal couriers to terminate.
     * Set the office's status to terminated and wake up all tasks that are waiting on condition.
     * Couriers will pickup the dummy task after being waken up here.
+    * Office take record of couriers waiting for tasks. for Couriers not waiting for tasks at that time, office wait for them to finish.
+    * Accept last requestWork call, and terminate
     */
     void WATCardOffice::main(){
       prt->print(Printer::WATCardOffice, 'S');
