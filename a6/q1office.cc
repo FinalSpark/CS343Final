@@ -13,6 +13,7 @@
         for (unsigned int i = 0; i < numCouriers; i++) {
             couriers[i] = new Courier(&prt, &bank, i, this);
         }
+        terminated = false;
     }
 
    /**
@@ -51,12 +52,11 @@
     * Otherwise, wait till there are jobs 
     */
     struct WATCardOffice::Job *WATCardOffice::requestWork(){
-                //cout << "here1" << endl;
         while (jobs.size() < 1 && !terminated)
         {
-        cout << jobs.size() << endl;
           condition.wait();
         }
+        if (terminated) return NULL;
         struct WATCardOffice::Job * temp = jobs.front();
         //return NULL;
         jobs.pop();
@@ -90,10 +90,22 @@
               jobs.push(job);
             }
             terminated = true;
+            int courierCount = 0;
             while (!condition.empty())
             {
               condition.signalBlock();
+              courierCount++;
             }
+            courierCount = numCouriers-courierCount;
+            while (courierCount > 0) {
+                _Accept(requestWork){
+                    courierCount--;
+                }
+            }
+            for (unsigned int i = 0; i < numCouriers; i++) {
+            delete couriers[i];
+            }
+            delete[] couriers;
             prt->print(Printer::WATCardOffice, 'F');
             break;
         }
@@ -102,12 +114,6 @@
 
     WATCardOffice::~WATCardOffice(){
 
-            cout << "reach here2 job count" << jobs.size() << endl;
-        for (unsigned int i = 0; i < numCouriers; i++) {
-            delete couriers[i];
-        }
-            cout << "reach here3" << endl;
-        delete[] couriers;
     }
 
 
@@ -132,14 +138,12 @@
     */
     void WATCardOffice::Courier::main(){
         std::vector<struct WATCardOffice::Job *> doneJobs;
-        int count = 0;
         prt->print(Printer::Courier, id, 'S');
         while (true){
-                cout<<"requesting job"<<endl;
                 struct Job* job = office->requestWork();
-                if (job->sid == -1)
+                if ( job == NULL || job->sid == -1)
                 {
-                    for (int i = 0; i < count; i++) {
+                    for (int i = 0; i < doneJobs.size(); i++) {
                         delete doneJobs[i];
                     }
                   break; 
@@ -151,8 +155,6 @@
                     //delete job->card;
                     job->result.exception( new Lost );
                 } else {
-                    cout << "courier id: " << job->sid << endl;
-
                     job->card->deposit(job->amount);
                     job->result.delivery(job->card);
                     prt->print(Printer::Courier, id, 'T', job->sid, job->amount);
