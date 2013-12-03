@@ -4,7 +4,7 @@
 
 void Bank::deposit( unsigned int id, unsigned int amount ){
     studentBalance[id]+=amount;
-    condition[id]->signal();
+    condition[id]->signalBlock();
 }
 void Bank::withdraw( unsigned int id, unsigned int amount ){
     while (amount > studentBalance[id]) {
