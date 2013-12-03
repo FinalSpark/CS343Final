@@ -13,7 +13,7 @@ vector <VendingMachine *> machines;
 vector <Student *> students;
 void uMain::main() {
   struct ConfigParms parms;
-  parms = {2, 3, 8, 3, 5, 3, 3, 2, 1}; //default params
+  parms = {2, 4, 10, 5, 10, 4, 7, 10, 1}; //default params
   
   //TODO add file reading and parsing
 
@@ -40,12 +40,13 @@ void uMain::main() {
       delete students[i];
     }
     delete plant;
-    delete parent;
     delete wtcrdOffice;
     delete nameServer;
+    delete parent;
     for (unsigned int i = 0; i < parms.numVendingMachines; i++)
     {
       delete machines[i];
     }
+
   }
 }

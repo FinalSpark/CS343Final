@@ -135,6 +135,7 @@ _Task WATCardOffice {
     Printer * prt;
     Bank * bank;
     unsigned int numCouriers;
+    uCondition condition;
     std::queue<Job*> jobs;
     Courier **couriers;
   public:
