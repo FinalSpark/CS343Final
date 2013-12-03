@@ -21,15 +21,11 @@ void VendingMachine::main(){
 }
 
 VendingMachine::Status VendingMachine::buy(Flavours flavour, WATCard &card){
-        //cout << "here in vending" << endl;
-            //cout << "1vending:: buy id: " << id;
-            //cout << "  stock flavor: " << stock[flavour] << endl;
     buySuccess = false;
     if (stock[flavour] == 0) return STOCK;
     else if (card.getBalance() < sodaCost) return FUNDS;
     else {
 
-            //cout << "2vending:: buy id: " << id << endl;
         prt->print(Printer::Vending, id, 'B', flavour, stock[flavour]);
         card.withdraw(sodaCost);
         return BUY;

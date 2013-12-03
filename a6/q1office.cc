@@ -113,7 +113,10 @@
     }
 
     WATCardOffice::~WATCardOffice(){
-
+        for (unsigned int i = 0; i < numCouriers; i++) {
+            delete couriers[i];
+        }
+        delete[] couriers;
     }
 
 
